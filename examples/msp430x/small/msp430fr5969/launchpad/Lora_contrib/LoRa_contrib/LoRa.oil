@@ -1,0 +1,85 @@
+OIL_VERSION = "2.5";
+
+IMPLEMENTATION trampoline {
+
+    /* This fix the default STACKSIZE of tasks */
+    TASK {
+        UINT32 STACKSIZE = 300 ;
+    } ;
+
+    /* This fix the default STACKSIZE of ISRs */
+    ISR {
+        UINT32 STACKSIZE = 200 ;
+    } ;
+};
+
+CPU readbutton {
+  OS config {
+    STATUS = EXTENDED;
+	CPU_FREQ_MHZ = 8;
+    
+    BUILD = TRUE {
+      TRAMPOLINE_BASE_PATH = "/home/vaibhav/Documents/ME/Project_LORA_M2/trampoline";
+      
+
+
+
+
+      APP_CPPSRC = "./LoRa.cpp";
+      APP_CPPSRC = "./first_main.cpp";
+      APP_CPPSRC = "./SPI.cpp";	
+     
+      APP_NAME = "lora_main.elf";
+
+
+
+      CFLAGS  = "-O0 -g3 -gdwarf-2 -ggdb"; //gdb usage
+      LDFLAGS = "-Map=lora.map";
+      COMPILER = "msp430-gcc";
+      CPPCOMPILER = "msp430-g++";
+      ASSEMBLER = "msp430-gcc";
+      LINKER = "msp430-ld";
+      COPIER = "msp430-objcopy";
+      SYSTEM = PYTHON;
+    };
+    SYSTEM_CALL = TRUE;
+    MEMMAP = TRUE {
+      COMPILER = gcc;
+      LINKER = gnu_ld { SCRIPT = "script.ld"; };
+      ASSEMBLER = gnu_as;
+      MEMORY_PROTECTION = FALSE;
+    };
+  };
+  
+  APPMODE standard {};
+    
+ 
+
+
+
+
+
+  
+  ISR buttonS2 {
+    CATEGORY = 1;
+    PRIORITY = 1;
+    SOURCE = PORT1_VECTOR {
+      BIT = 1;
+    }; /* Button S2 is on GPIO port 1, bit 1 */
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
